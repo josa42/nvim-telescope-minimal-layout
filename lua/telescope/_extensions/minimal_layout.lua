@@ -8,6 +8,8 @@ return telescope.register_extension({
   setup = function()
     local layout_strategies = require('telescope.pickers.layout_strategies')
     function layout_strategies:minimal(max_columns, max_lines, config)
+      local border = self.window.borderchars
+
       config = vim.tbl_extend('keep', self.layout_config.minimal or {}, {
         prompt_position = 'top',
         prompt_min_width = 40,
@@ -41,13 +43,13 @@ return telescope.register_extension({
       return vim.tbl_deep_extend('force', layout, {
         prompt = {
           title = false,
-          borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+          borderchars = border,
         },
         results = {
           title = false,
           line = layout.results.line - 1,
           height = layout.results.height + 1,
-          borderchars = { '─', ' ', ' ', ' ', '└', '┘', ' ', ' ' },
+          borderchars = { border[1], ' ', ' ', ' ', border[8], border[7], ' ', ' ' },
         },
         preview = layout.preview and {
           title = false,
