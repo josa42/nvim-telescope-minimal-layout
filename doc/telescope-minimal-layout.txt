@@ -1,0 +1,67 @@
+==============================================================================
+Minimal Layout                                      *telescope-minimal-layout*
+
+A minimal layout for telescope.nvim
+(https://github.com/nvim-telescope/telescope.nvim)
+
+
+==============================================================================
+Setup                                       *telescope-minimal-layout.setup()*
+
+    Usage:
+    >
+    local telescope = require('telescope')
+
+    telescope.setup({
+      defaults = {
+        layout_strategy = 'minimal',
+
+        -- [optional] adjust layout
+        layout_config = {
+          minimal = {
+            prompt_position = 'top',
+            prompt_min_width = 40,
+            prompt_max_width = 80,
+            preview_width = 80,
+          }
+        },
+
+        -- [optional] hide preview by default
+        preview = {
+          hide_on_startup = true,
+        },
+
+        -- [optional] toggle preview
+        mappings = {
+          i = {
+            ['<c-p>'] = require('telescope.actions.layout').toggle_preview,
+          },
+        },
+     })
+
+    telescope.load_extension('minimal_layout')
+<
+
+    Valid keys for minimal config
+
+                                     *telescope-minimal-layout.prompt_position*
+    prompt_position: ~
+        Determines the prompt persition: "top" or "bottom"
+
+                                    *telescope-minimal-layout.prompt_min_width*
+    prompt_min_width: ~
+        Determines the prompt minimal width.
+
+                                    *telescope-minimal-layout.prompt_max_width*
+    prompt_max_width: ~
+        Determines the prompt maximal width.
+
+                                       *telescope-minimal-layout.preview_width*
+    preview_width: ~
+        Determines the preview width.
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
+
+

@@ -24,6 +24,8 @@ return telescope.register_extension({
       config.preview_cutoff = config.preview_width + config.prompt_min_width
       config.max_width = config.preview_width + config.prompt_max_width
 
+      local empty_border = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
+
       local layout = layout_strategies.horizontal(self, max_columns, max_lines, {
         horizontal = {
           prompt_position = config.prompt_position,
@@ -40,6 +42,27 @@ return telescope.register_extension({
           preview_cutoff = config.preview_cutoff,
         },
       })
+
+      if config.prompt_position == 'top' then
+        return vim.tbl_deep_extend('force', layout, {
+          prompt = {
+            title = false,
+            borderchars = border,
+          },
+          results = {
+            title = false,
+            line = layout.results.line - 1,
+            height = layout.results.height + 1,
+            borderchars = { border[1], ' ', ' ', ' ', border[8], border[7], ' ', ' ' },
+          },
+          preview = layout.preview and {
+            title = false,
+            borderchars = empty_border,
+          } or nil,
+          --
+        })
+      end
+
       return vim.tbl_deep_extend('force', layout, {
         prompt = {
           title = false,
@@ -47,13 +70,12 @@ return telescope.register_extension({
         },
         results = {
           title = false,
-          line = layout.results.line - 1,
           height = layout.results.height + 1,
-          borderchars = { border[1], ' ', ' ', ' ', border[8], border[7], ' ', ' ' },
+          borderchars = { ' ', ' ', border[1], ' ', ' ', ' ', border[6], border[5] },
         },
         preview = layout.preview and {
           title = false,
-          borderchars = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+          borderchars = empty_border,
         } or nil,
         --
       })
