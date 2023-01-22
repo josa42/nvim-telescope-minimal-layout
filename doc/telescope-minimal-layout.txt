@@ -60,6 +60,10 @@ Setup                                       *telescope-minimal-layout.setup()*
     preview_width: ~
         Determines the preview width.
 
+                                      *telescope-minimal-layout.results-border*
+    results_border: ~
+        Determines whether to render a border around the results.
+
 
 ==============================================================================
 vim:tw=78:ts=8:ft=help:norl:

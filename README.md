@@ -76,6 +76,9 @@ telescope.load_extension('minimal_layout')
 - `preview_width`:  
   Determines the preview width.
 
+- `results_border`:  
+  Determines whether to render a border around the results.
+
 <br>
 
 ## License

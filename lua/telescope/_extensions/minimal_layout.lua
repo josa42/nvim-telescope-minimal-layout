@@ -4,6 +4,23 @@ if not ok then
   error('Install nvim-telescope/telescope.nvim to use josa42/nvim-telescope-minimal-layout.')
 end
 
+local empty_border = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
+
+local function results_border(config, border)
+  if config.prompt_position == 'top' then
+    if config.result_border then
+      return { border[1], border[2], border[3], border[4], '├', '┤', border[7], border[8] }
+    end
+    return { border[1], ' ', ' ', ' ', border[8], border[7], ' ', ' ' }
+  end
+
+  -- bottom prompt
+  if config.result_border then
+    return { border[1], border[2], border[3], border[4], border[5], border[6], '┤', '├' }
+  end
+  return { ' ', ' ', border[1], ' ', ' ', ' ', border[6], border[5] }
+end
+
 return telescope.register_extension({
   setup = function()
     local layout_strategies = require('telescope.pickers.layout_strategies')
@@ -15,6 +32,7 @@ return telescope.register_extension({
         prompt_min_width = 40,
         prompt_max_width = 80,
         preview_width = 80,
+        result_border = false,
       })
 
       if config.prompt_min_width > config.prompt_max_width then
@@ -23,8 +41,6 @@ return telescope.register_extension({
 
       config.preview_cutoff = config.preview_width + config.prompt_min_width
       config.max_width = config.preview_width + config.prompt_max_width
-
-      local empty_border = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
 
       local layout = layout_strategies.horizontal(self, max_columns, max_lines, {
         horizontal = {
@@ -53,7 +69,7 @@ return telescope.register_extension({
             title = false,
             line = layout.results.line - 1,
             height = layout.results.height + 1,
-            borderchars = { border[1], ' ', ' ', ' ', border[8], border[7], ' ', ' ' },
+            borderchars = results_border(config, border),
           },
           preview = layout.preview and {
             title = false,
@@ -71,7 +87,7 @@ return telescope.register_extension({
         results = {
           title = false,
           height = layout.results.height + 1,
-          borderchars = { ' ', ' ', border[1], ' ', ' ', ' ', border[6], border[5] },
+          borderchars = results_border(config, border),
         },
         preview = layout.preview and {
           title = false,
