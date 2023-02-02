@@ -24,42 +24,38 @@ end
 return telescope.register_extension({
   setup = function()
     local layout_strategies = require('telescope.pickers.layout_strategies')
-    function layout_strategies:minimal(max_columns, max_lines, config)
+    function layout_strategies:minimal(max_columns, max_lines, layout_config)
       local border = self.window.borderchars
 
-      config = vim.tbl_extend('keep', self.layout_config.minimal or {}, {
+      layout_config = vim.tbl_extend('keep', self.layout_config.minimal or {}, self.layout_config or {}, {
         prompt_position = 'top',
         prompt_min_width = 40,
         prompt_max_width = 80,
         preview_width = 80,
         result_border = false,
+        width = function(self, max_width)
+          if self.previewer == nil or max_width < layout_config.preview_cutoff then
+            return layout_config.prompt_max_width
+          end
+          return math.min(max_width, layout_config.max_width)
+        end,
+        height = function(_, _, max_height)
+          return math.min(math.max(max_height - 4, 10), 40)
+        end,
       })
 
-      if config.prompt_min_width > config.prompt_max_width then
-        config.prompt_min_width = config.prompt_max_width
+      if layout_config.prompt_min_width > layout_config.prompt_max_width then
+        layout_config.prompt_min_width = layout_config.prompt_max_width
       end
 
-      config.preview_cutoff = config.preview_width + config.prompt_min_width
-      config.max_width = config.preview_width + config.prompt_max_width
+      layout_config.preview_cutoff = layout_config.preview_width + layout_config.prompt_min_width
+      layout_config.max_width = layout_config.preview_width + layout_config.prompt_max_width
 
       local layout = layout_strategies.horizontal(self, max_columns, max_lines, {
-        horizontal = {
-          prompt_position = config.prompt_position,
-          width = function(self, max_width)
-            if self.previewer == nil or max_width < config.preview_cutoff then
-              return config.prompt_max_width
-            end
-            return math.min(max_width, config.max_width)
-          end,
-          height = function(_, _, max_height)
-            return math.min(math.max(max_height - 4, 10), 40)
-          end,
-          preview_width = config.preview_width,
-          preview_cutoff = config.preview_cutoff,
-        },
+        horizontal = layout_config,
       })
 
-      if config.prompt_position == 'top' then
+      if layout_config.prompt_position == 'top' then
         return vim.tbl_deep_extend('force', layout, {
           prompt = {
             title = false,
@@ -69,7 +65,7 @@ return telescope.register_extension({
             title = false,
             line = layout.results.line - 1,
             height = layout.results.height + 1,
-            borderchars = results_border(config, border),
+            borderchars = results_border(layout_config, border),
           },
           preview = layout.preview and {
             title = false,
@@ -87,7 +83,7 @@ return telescope.register_extension({
         results = {
           title = false,
           height = layout.results.height + 1,
-          borderchars = results_border(config, border),
+          borderchars = results_border(layout_config, border),
         },
         preview = layout.preview and {
           title = false,
