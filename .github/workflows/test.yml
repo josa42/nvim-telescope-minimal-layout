@@ -2,15 +2,13 @@ name: Test
 
 on:
   push:
-    branches: [ 'main' ]
+    branches: [ 'main', 'dev' ]
   pull_request:
     branches: [ main ]
 
 jobs:
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
+  test:
+    uses: josa42/gha-workflows/.github/workflows/nvim-plugin.yml@main
+    with:
+      skip_test: true
 
-    steps:
-      - uses: actions/checkout@v3
-      - uses: josa42/gha-stylua@main
