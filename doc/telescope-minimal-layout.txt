@@ -4,6 +4,8 @@ Minimal Layout                                      *telescope-minimal-layout*
 A minimal layout for telescope.nvim
 (https://github.com/nvim-telescope/telescope.nvim)
 
+Requires Neovim >= 0.12.
+
 
 ==============================================================================
 Setup                                       *telescope-minimal-layout.setup()*
@@ -46,7 +48,7 @@ Setup                                       *telescope-minimal-layout.setup()*
 
                                      *telescope-minimal-layout.prompt_position*
     prompt_position: ~
-        Determines the prompt persition: "top" or "bottom"
+        Determines the prompt position: "top" or "bottom"
 
                                     *telescope-minimal-layout.prompt_min_width*
     prompt_min_width: ~
@@ -60,7 +62,7 @@ Setup                                       *telescope-minimal-layout.setup()*
     preview_width: ~
         Determines the preview width.
 
-                                      *telescope-minimal-layout.results-border*
+                                      *telescope-minimal-layout.results_border*
     results_border: ~
         Determines whether to render a border around the results.
 

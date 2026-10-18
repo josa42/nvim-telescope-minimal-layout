@@ -7,6 +7,13 @@ A minimal layout for [telescope.nvim](https://github.com/nvim-telescope/telescop
 
 <br>
 
+## 📋 Requirements
+
+- Neovim >= 0.12
+- [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
+
+<br>
+
 ## 🚛 Installation
 
 Using [vim-plug](https://github.com/junegunn/vim-plug):
