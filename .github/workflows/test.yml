@@ -9,6 +9,4 @@ on:
 jobs:
   test:
     uses: josa42/actions/.github/workflows/shared-nvim-plugin.yml@main
-    with:
-      skip_test: true
 
